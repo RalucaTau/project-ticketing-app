@@ -27,16 +27,28 @@
     <ClCompile Include="Locatie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Traducere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Meniu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Eveniment.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="Meniu.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Bilet.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="Traducere.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Locatie.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bilet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Eveniment.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

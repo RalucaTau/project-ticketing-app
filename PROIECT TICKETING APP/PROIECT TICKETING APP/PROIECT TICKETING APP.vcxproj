@@ -24,6 +24,7 @@
     <ProjectGuid>{0865232e-915f-4039-a1c4-8b956b25d2a3}</ProjectGuid>
     <RootNamespace>PROIECTTICKETINGAPP</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>PROIECT TICKETING APP</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -130,12 +131,16 @@
     <ClCompile Include="Bilet.cpp" />
     <ClCompile Include="Eveniment.cpp" />
     <ClCompile Include="Locatie.cpp" />
+    <ClCompile Include="Meniu.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Traducere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bilet.h" />
     <ClInclude Include="Eveniment.h" />
     <ClInclude Include="Locatie.h" />
+    <ClInclude Include="Meniu.h" />
+    <ClInclude Include="Traducere.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

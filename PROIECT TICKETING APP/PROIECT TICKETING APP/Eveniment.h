@@ -2,6 +2,7 @@
 #include<iostream>
 #include<string>
 #include "Locatie.h"
+#include<fstream>
 using namespace std;
 
 class Eveniment
@@ -14,11 +15,12 @@ private:
 	int ora,min;
 	int zi, luna, an; 
 	int locuriOcupate; // locurile dispovibile vor fi nrMaxLocuri-locuriOcupate
-	//Bilet bilet;
 	
 	
 
 public:
+	void scriereFisier(ofstream&);
+	void citireFisier(ifstream&);
 	Eveniment();
 	Eveniment(const char*, string, int, int, int, int, int, int,const int);
 	Eveniment(const Eveniment&);
@@ -49,4 +51,5 @@ public:
 	bool validareOra(int, int);
 	bool validareData(int, int, int);
 	void verificareNrLocuri(int, int);
+
 };

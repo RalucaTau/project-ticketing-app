@@ -10,6 +10,20 @@ static int getcontorBilet() {
 }
 
 
+
+Plata::Plata(const char* numeParticipant, int rand, int loc, string categorie, bool locRezervat , int pret, string metodaPlata, string contBancar)
+{
+	setnumeParticipant(numeParticipant);
+	setrand(rand);
+	setloc(loc);
+	setcategorie(categorie);
+	setlocRezervat(locRezervat);
+	this->pret = pret;
+	this->metodaPlata = metodaPlata;
+}
+
+
+
 Bilet::Bilet() : idBilet(0)
 {
 	numeParticipant = new char[strlen("necunoscut") + 1];
@@ -114,6 +128,15 @@ bool Bilet::getlocRezervat()
 	return this->locRezervat;
 }
 
+int Plata::getpret()
+{
+	return this->pret;
+}
+
+string Plata::getmetodaPlata()
+{
+	return this->metodaPlata;
+}
 
 char* Bilet::getnumeParticipant()
 {
@@ -150,7 +173,7 @@ void Bilet::setloc(int loc)
 {
 	this->loc = loc;
 }
-void Bilet::setcategorie(int categorie)
+void Bilet::setcategorie(string categorie)
 {
 	this->categorie = categorie;
 }
@@ -159,6 +182,23 @@ void Bilet::setlocRezervat(bool locRezervat)
 	this->locRezervat = locRezervat;
 }
 
+void Bilet::setPret(int pret)
+{
+	this->pret = pret;
+}
+
+void Plata::setPret(int pret)
+{
+	this->pret = pret;
+}
+
+void Plata::setmetodaPlata(string metodaPlata)
+{
+	if (metodaPlata == "cash" || metodaPlata == "card")
+		this->metodaPlata = metodaPlata;
+	else
+		metodaPlata = "necunoscuta";
+}
 
  ostream& operator<<(ostream& out, Bilet sursa)
 {
@@ -216,22 +256,15 @@ void Bilet::setlocRezervat(bool locRezervat)
 	 return !this->locRezervat;
  }
 
- int Bilet::fabricaID()
- {
-	 auxid[0] = this->rand % 10;
-	 auxid[1] = ((this->loc % 10) * 29) % 10;
-	 auxid[2] = int(numeParticipant[0]) % 10;
-	 auxid[3] = int(numeParticipant[1]) % 10;
-	 auxid[4] = ((int(numeParticipant[1]) % 10) * 13 + 17) % 10;
-	 auxid[5] = (locatie.getidLocatie())%10;
-	 int id = 0;
-	 for (int i = 0; i < 6; i++)
-	 {
-		 id = id * 10 + auxid[i];
-	 }
-	 return id;
- }
- //in main va fi: Bilet bilet(bilet.fabricaID());
+int Bilet::fabricaID(int idEvent, int rand, int loc)
+{
+	int idBilet;
+	
+	idBilet = idEvent * 100 + rand;
+	idBilet = idBilet * 100 + loc;
+	idBilet = idBilet * 10 + ((rand + loc) * 123 / 17) % 10; 
+	return idBilet;
+}
 
  string Bilet::seteazaCategorie(string categorie, string zonica)
  {
@@ -261,4 +294,63 @@ void Bilet::setlocRezervat(bool locRezervat)
 	 if (locRezervat = true)
 		 locatie.setvectorLocuriCuCateUnu(vLocuri, nrLocuri, loc);
 	
+}
+
+void Bilet::scriereBiletFisier(int tempID, int idEvent, int rand, int loc, string nParticipant, string numeEvent, string categorie)
+{
+	fstream file;
+	string filename = "Bilete\\" + to_string(tempID) + ".bin";
+	file.open(filename.c_str(), ios::binary | ios::out);
+	if (!file.is_open())
+		cout << "Eroare la deschiderea fisierului " << filename << "!" << endl;
+	else
+	{
+		file.write(reinterpret_cast<char*>(&tempID), sizeof(tempID));
+		file.write(reinterpret_cast<char*>(&idEvent), sizeof(idEvent));
+		file.write(reinterpret_cast<char*>(&rand), sizeof(rand));
+		file.write(reinterpret_cast<char*>(&loc), sizeof(loc));
+
+		int length = nParticipant.length();
+		file.write((char*)&length, sizeof(length));
+		file.write(nParticipant.c_str(), length + 1);
+
+		file.write((char*)&length, sizeof(length));
+		file.write(categorie.c_str(), length + 1);
+	}
+ }
+
+void Bilet::citesteBiletFisier(int id)
+{
+	int tempID=0, idEvent=0, rand=0, loc=0;
+	string numeParticipant, numeEvent, categorie;
+	fstream file;
+	string filename = "Bilete\\" + to_string(id) + ".bin";
+	
+	file.open(filename, ios::in);
+	if (!file.is_open())
+		cout << "Eroare la deschiderea fisierului!";
+	else
+	{
+		file.read((char*)&tempID, sizeof(tempID));
+		file.read((char*)&idEvent, sizeof(idEvent));
+		file.read((char*)&rand, sizeof(rand));
+		file.read((char*)&loc, sizeof(loc));
+
+		int length = 0; 
+		file.read((char*)&length, sizeof(length));
+		char* numeP = new char[length + 1];
+		file.read(numeP, length + 1);
+		numeParticipant = numeP;
+		delete[] numeP;
+
+
+		file.read((char*)& length, sizeof(length));
+		char* numeCat = new char[length + 1];
+		file.read(numeCat, length + 1);
+		categorie = numeCat;
+		delete[] numeCat;
+
+	}
+	cout << tempID << " " << idEvent << " " << rand << " " << loc << " " << numeParticipant << " " << categorie;
+
 }

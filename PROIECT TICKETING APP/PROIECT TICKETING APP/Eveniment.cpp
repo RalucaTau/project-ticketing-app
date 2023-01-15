@@ -3,6 +3,8 @@
 #include "Eveniment.h"
 
 
+
+
 Eveniment::Eveniment() : idEveniment(0)
 {
 	this->tipEveniment = new char[strlen("Necunoscut") + 1];
@@ -14,6 +16,29 @@ Eveniment::Eveniment() : idEveniment(0)
 	luna = -1;
 	an = -1;
 	locuriOcupate = 0;
+}
+
+void Eveniment::scriereFisier(ofstream& out)
+{
+	out << this->tipEveniment << endl;
+	out << "Numele evenimentului este: " << this->numeEveniment << endl;
+	out << "Ora la care are loc: " << this->ora << ":" << this->min << endl;
+	out << "Data la care are loc: " << this->zi << "-" << this->luna << "-" << this->an << endl;
+	out << "In momentul actual exista " << this->locuriOcupate << " locuri ocupate" << endl;
+}
+
+
+void Eveniment::citireFisier(ifstream& in)
+{
+	delete[] this->tipEveniment;
+	in >> this->tipEveniment;
+	char buffer[200];
+	in.ignore();
+	in.get(buffer, 200);
+	this->numeEveniment = buffer;
+	in >> this->ora >> this->min >> this->zi >> this->luna >> this->an;
+	in >> this->locuriOcupate;
+
 }
 
 Eveniment::Eveniment(const char* tipEveniment, string numeEveniment, int ora, int min, int zi, int luna, int an, int locuriOcupate,const int idEveniment) :idEveniment(idEveniment)
@@ -345,3 +370,6 @@ void Eveniment::verificareNrLocuri(int locuriOcupate, int nrTotal)
 		cout << "Atentie! S-au vandut mai multe bilete decat este posibil!" << endl;
 
 }
+
+
+
